@@ -5,7 +5,7 @@
 package check
 
 import (
-	".."
+	"github.com/HuguesGuilleus/parseOpt"
 )
 
 // Verify the names syntax, the existence of a description and
