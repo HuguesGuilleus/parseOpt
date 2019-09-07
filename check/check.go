@@ -5,7 +5,7 @@
 package check
 
 import (
-	".."
+	"github.com/HuguesGuilleus/parseOpt"
 	"testing"
 )
 
