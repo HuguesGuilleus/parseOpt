@@ -63,11 +63,11 @@ func (opt *Option) runCB() {
 	for _, spec := range opt.spec {
 		key := spec.key()
 		if spec.NeedArg {
-			if opt.Option[key] != nil {
+			if opt.Option[key] != nil && spec.CBOption != nil {
 				spec.CBOption(opt.Option[key])
 			}
 		} else {
-			if opt.Flag[key] {
+			if opt.Flag[key] && spec.CBFlag != nil{
 				spec.CBFlag()
 			}
 		}

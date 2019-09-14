@@ -21,8 +21,8 @@ func (list *SpecList) ParseArgOs() (opt *Option) {
 // Parse the environment variable and argument from OS
 func (opt *Option) ParseOs() *Option {
 	opt.canRunCB = false
-	opt.ParseArgOs()
 	opt.ParseOsEnv()
+	opt.ParseArgOs()
 	opt.canRunCB = true
 	opt.runCB()
 	return opt
