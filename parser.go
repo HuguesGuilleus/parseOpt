@@ -29,6 +29,11 @@ func (opt *Option) ParseOsAndFile(file string) (*Option, error) {
 	return opt, err
 }
 
+// Parse Os env, the file and Os arguments, and run the callBack
+func (list *SpecList) ParseOsAndFile(file string) (*Option, error) {
+	return list.toOption().ParseOsAndFile(file)
+}
+
 // Parse the environment variable and argument from OS
 func (opt *Option) ParseOs() *Option {
 	opt.canRunCB = false
