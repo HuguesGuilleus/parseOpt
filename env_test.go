@@ -10,44 +10,32 @@ import (
 	"testing"
 )
 
-func TestOptionParseLine(t *testing.T) {
+func TestOptionIncludeLine(t *testing.T) {
 	// Init log
 	oldLog := ErrLog
 	defer func() { ErrLog = oldLog }()
 	buff := &bytes.Buffer{}
 	ErrLog = log.New(buff, "", 0)
-	// Init callBack and Option
-	cbFlag, cbOption := true, true
+	// Init Option
 	opt := &Option{
 		Flag:   make(map[string]bool),
 		Option: make(map[string][]string),
 		spec: SpecList{
 			&Spec{
 				NameEnv: "YOLO",
-				CBFlag: func() {
-					cbFlag = false
-				},
 			},
 			&Spec{
 				NameEnv: "SWAG",
 				NeedArg: true,
-				CBOption: func(_ []string) {
-					cbOption = false
-				},
 			},
 		},
 	}
 	// Test
 	t.Run("Flag", func(t *testing.T) {
 		buff.Reset()
-		opt.ParseLine("YOLO=True")
+		opt.includeLine("YOLO=True")
 		t.Run("Value", func(t *testing.T) {
 			if opt.Flag["YOLO"] != true {
-				t.Fail()
-			}
-		})
-		t.Run("CallBack", func(t *testing.T) {
-			if cbFlag != false {
 				t.Fail()
 			}
 		})
@@ -59,16 +47,11 @@ func TestOptionParseLine(t *testing.T) {
 	})
 	t.Run("Option", func(t *testing.T) {
 		buff.Reset()
-		opt.ParseLine("SWAG = lapin")
+		opt.includeLine("SWAG = lapin")
 		t.Run("Value", func(t *testing.T) {
 			if test2SliceString(opt.Option["SWAG"], []string{"lapin"}) {
 				t.Error("Expected:", []string{"lapin"})
 				t.Log("Received:", opt.Option["SWAG"])
-			}
-		})
-		t.Run("CallBack", func(t *testing.T) {
-			if cbOption {
-				t.Fail()
 			}
 		})
 		t.Run("NoErrLog", func(t *testing.T) {
@@ -79,7 +62,7 @@ func TestOptionParseLine(t *testing.T) {
 	})
 	t.Run("No exist", func(t *testing.T) {
 		buff.Reset()
-		opt.ParseLine("ZZZ=yyy")
+		opt.includeLine("ZZZ=yyy")
 		expected := "Unknown key: ZZZ\n"
 		if err := buff.String(); err != expected {
 			t.Error("Bad ErrLog:")

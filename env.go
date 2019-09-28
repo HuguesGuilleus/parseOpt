@@ -5,6 +5,8 @@
 package parseOpt
 
 import (
+	"bytes"
+	"io/ioutil"
 	"os"
 	"regexp"
 )
@@ -31,34 +33,40 @@ func (opt *Option) ParseOsEnv() *Option {
 			opt.Flag[key] = toBool(value)
 		}
 	}
+	opt.runCB()
 	return opt
 }
 
-// func (opt *Option) ParseFile() *Option
+// Parse a key=value file and run CB
+func (opt *Option) ParseFile(path string) error {
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	for _, line := range bytes.Split(data, []byte{'\n'}) {
+		opt.includeLine(string(line))
+	}
+	// opt.runCb()
+	return nil
+}
 
-func (opt *Option) ParseLine(line string) *Option {
+// Include one line key=value to opt
+func (opt *Option) includeLine(line string) {
 	keyEnv, value, ok := parseLine(line)
 	if ok {
 		spec := opt.spec.getEnv(keyEnv)
 		if spec == nil {
 			ErrLog.Print("Unknown key: ",keyEnv)
-			return opt
+			return
 		}
 		key := spec.key()
 		if spec.NeedArg {
 			opt.Option[key] = append(opt.Option[key], value)
-			if spec.CBOption != nil {
-				spec.CBOption(opt.Option[key])
-			}
 		} else {
-			b := toBool(value)
-			opt.Flag[key] = b
-			if b && spec.CBFlag != nil {
-				spec.CBFlag()
-			}
+			opt.Flag[key] = toBool(value)
 		}
 	}
-	return opt
+	return
 }
 
 // Parse key=value in two string
