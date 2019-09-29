@@ -1,41 +1,61 @@
 ---
-title: Spéfifications
-lang: fr
+title: Spécifications
 ---
 
-# Spécifications
-Chaque élément de spécification est une structure Spec.
-`// type SpecList []*Spec`
-
-Ce module fait une distinction entre les différents éléments selon ce qu'il contiendront:
+Afin d'analyser les arguments, vous devez fournir des instructions pour l'analyse. Chaque option ou drapeau, est un élément de type `Spec` qui sont regourpés dans une liste `SpecList` qui servira à l'analyse. Ce module fait une distinction entre les différents éléments selon ce qu'il contiendront:
 - Les *options*: ils contiendront une liste de chaîne de caractères.
-- Les *drapeaux* ou *flags*: ils contiendront un booléen. Par défaut si le drapeau est présent sans autres valeur, la valeur sera vrai.
+- Les *drapeaux* ou *flags*: ils contiendront un booléen; vrai si présent, faux sinon.
 
-La structure `Spec` contient `NameShort` pour les arguments courts, `NameLong` pour les arguments longs et `NameEnv` pour les variables d'environnement ou les fichier de configurations. Si tous ces noms sont vides, la structure correspond aux arguments passés au programme. Exemple:
-```bash
-# Notons que -y est une option
-$ ./prog -y yolo swag1 swag2
+```go
+// Specification for an option or an flag
+type Spec struct {
+	// Name used in os.Args
+	NameShort, NameLong string
+	// Name used in os.Env or in file
+	NameEnv string
 
+	// Used in help, it describe this specification.
+	Desc string
+	// [Option only] It's the name of the option, used in help.
+	OptionName string
+
+	// True: -a|--aaa option -a|--aaa=option
+	// False: -a\--aaaa=true|false
+	NeedArg bool
+
+	// [Flag only] Callback exectuted after the parsing.
+	CBFlag func()
+	// [Option only] Callback exectuted after the parsing.
+	CBOption func([]string)
+}
+
+// A list of specification, it will be verified
+// and used to parse Arg or/and Environment variable
+type SpecList []*Spec
 ```
+
+
+
+> ## Notes
+Si tous ces noms sont vides, la structure correspond aux arguments standards passés au programme.
+>
+> **Specification d'aide:** Le programme ajoute par défaut une spécification dans la liste des spécifications d'aide si NameShort `h` et NameLong `help` n'existe pas.
+> **Specification d'aide:** Si la liste de spécifications ne contient pas d'élément avec «h» pour `NameShort` et «help» pour `NameLong`, alos il ajoute une spécification d'aide conteant un *CallBack* qui liste les options présente et quitte le programme.
+
+
+## Vérification
+Vous pouvez vérifier la syntaxe de vos spécifications grâce au sous module `check` dans les testes.
 
 ```go
 package main
-import "fmt"
 
-func main()  {
-	fmt.Println("Hello World")
+import (
+	"github.com/HuguesGuilleus/parseOpt/check"
+	"testing"
+)
+
+func TestSpecList(t *testing.T) {
+	// list est votre liste de spécifications
+	check.Check(t, list)
 }
 ```
-
-## CallBack
-Vous pouvez ajouter une fonction qui sera appelée après l'analyse des arguments ou environnement. Si la spécification correspond à un drapeau, utiliser `CBFlag` sinon utilisez `CBOpt`.
-
-Suivant si la spécification est une option ou un drapeau
-
-
-++:
-help "" --
-
-## Arguments
-
-## Environnement
