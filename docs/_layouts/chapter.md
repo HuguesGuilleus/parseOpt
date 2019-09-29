@@ -30,6 +30,13 @@ layout: default
 {% include lang.liquid %}
 {%- endif %}
 
+<div style="background:#ff9400;margin-bottom:1em;padding:0.2ex 1ex;color:#3e1300;text-align:center;">
+	{% octicon beaker %}
+	En cours de developpement
+	{% octicon beaker %}
+</div>
+
+
 {{ content }}
 
 <footer>
