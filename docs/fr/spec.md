@@ -2,45 +2,46 @@
 title: Spécifications
 ---
 
-Afin d'analyser les arguments, vous devez fournir des instructions pour l'analyse. Chaque option ou drapeau, est un élément de type `Spec` qui sont regourpés dans une liste `SpecList` qui servira à l'analyse. Ce module fait une distinction entre les différents éléments selon ce qu'il contiendront:
+Afin d'analyser les arguments, vous devez fournir des instructions pour l'analyse. Chaque option ou drapeau, est un élément de type `Spec` qui sont regroupées dans une liste `SpecList` qui servira à l'analyse. Ce module fait une distinction entre les différents éléments selon ce qu'il contiendront:
 - Les *options*: ils contiendront une liste de chaîne de caractères.
 - Les *drapeaux* ou *flags*: ils contiendront un booléen; vrai si présent, faux sinon.
 
 ```go
 // Specification for an option or an flag
+// Spécification pour une option ou un drapeau
 type Spec struct {
-	// Name used in os.Args
+	// Non utilisé dans os.Args
 	NameShort, NameLong string
-	// Name used in os.Env or in file
+	// Nom utilisé dans os.Env ou dans un fichier
 	NameEnv string
 
-	// Used in help, it describe this specification.
+	// Utilisé dans l'aide pour décrire cette spécification
 	Desc string
-	// [Option only] It's the name of the option, used in help.
+	// [Uniquement les options] Le nom de l'option dans l'aide
 	OptionName string
 
-	// True: -a|--aaa option -a|--aaa=option
-	// False: -a\--aaaa=true|false
+	// Vrai pour une option, faux sinon
 	NeedArg bool
 
-	// [Flag only] Callback exectuted after the parsing.
+	// [Uniquement les drapeaux] CallBack exécuté après l'analyse.
 	CBFlag func()
-	// [Option only] Callback exectuted after the parsing.
+	// [Uniquemen pour les option] CallBack exécuté après l'analyse
 	CBOption func([]string)
 }
 
-// A list of specification, it will be verified
-// and used to parse Arg or/and Environment variable
+// Une liste de spécification utilisé pour l'analyse
 type SpecList []*Spec
 ```
 
 
+## Notes
+Dans un élément de spécification, si tous ces noms sont vides, la structure correspond aux arguments standards passés au programme.
 
-> ## Notes
-Si tous ces noms sont vides, la structure correspond aux arguments standards passés au programme.
->
-> **Specification d'aide:** Le programme ajoute par défaut une spécification dans la liste des spécifications d'aide si NameShort `h` et NameLong `help` n'existe pas.
-> **Specification d'aide:** Si la liste de spécifications ne contient pas d'élément avec «h» pour `NameShort` et «help» pour `NameLong`, alos il ajoute une spécification d'aide conteant un *CallBack* qui liste les options présente et quitte le programme.
+**Specification d'aide:** Si la liste de spécifications ne contient pas d'élément avec «h» pour `NameShort` ou «help» pour `NameLong`, alors il ajoute une spécification d'aide contenant un *CallBack* qui liste les drapeaux et les options présentent puis quitte le programme.
+
+La spécification avec `NameLong` correspondant à «`--`» sera forcément un drapeau.
+
+Une spécification avec `NameLong` et `NameShort` vide correspond aux arguments standards.
 
 
 ## Vérification
