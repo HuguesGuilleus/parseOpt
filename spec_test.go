@@ -169,7 +169,7 @@ func TestSpecListHelp(t *testing.T) {
 		"\t\033[1m   --aaa \033[0m Description ...",
 		"\t\033[1m-b --bbbb\033[0m Description ...",
 		"\t\033[1m-c        \033[0;4moption\033[0m Description ...",
-		"\t\033[1m   --    \033[0m ",
+		"\t\033[1m   --    \033[0m Yolo",
 	}
 	list := SpecList{
 		&Spec{
@@ -194,6 +194,7 @@ func TestSpecListHelp(t *testing.T) {
 		&Spec{
 			NameLong: "--",
 			NeedArg:  false,
+			Desc:     "Yolo",
 		},
 	}
 	buff := &bytes.Buffer{}

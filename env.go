@@ -56,7 +56,7 @@ func (opt *Option) includeLine(line string) {
 	if ok {
 		spec := opt.spec.getEnv(keyEnv)
 		if spec == nil {
-			ErrLog.Print("Unknown key: ",keyEnv)
+			ErrLog.Print("Unknown key: ", keyEnv)
 			return
 		}
 		key := spec.key()

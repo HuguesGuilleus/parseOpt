@@ -109,6 +109,9 @@ func (list *SpecList) Help(w io.Writer) {
 	maxLong := 0
 	for i, spec := range *list {
 		names[i] = "\t\033[1m"
+		if spec.NameLong == "--" && len(spec.Desc) == 0 {
+			continue
+		}
 		if spec.NameShort != "" {
 			names[i] += "-" + spec.NameShort + " "
 		} else {

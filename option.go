@@ -67,7 +67,7 @@ func (opt *Option) runCB() {
 				spec.CBOption(opt.Option[key])
 			}
 		} else {
-			if opt.Flag[key] && spec.CBFlag != nil{
+			if opt.Flag[key] && spec.CBFlag != nil {
 				spec.CBFlag()
 			}
 		}
