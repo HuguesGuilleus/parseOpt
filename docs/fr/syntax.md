@@ -1,22 +1,22 @@
 ---
 title: Syntaxe
-lang: fr
 ---
 
-# Option par la ligne de commande
-Posons la spécification suivante sui est une option:
+## Option par la ligne de commande
+
+Posons la spécification suivante est une option:
 ```go
 	s := &Spec{
-		NameShort:"a",
-		NameLong:"aaa",
-		NeedArg:true,
+		NameShort: "a",
+		NameLong:  "aaa",
+		NeedArg:   true,
 	}
 ```
 
-Posons un drapeau:
+et posons un drapeau:
 ```go
 	s := &Spec{
-		NameShort:"d",
+		NameShort: "d",
 	}
 ```
 
