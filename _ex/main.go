@@ -25,10 +25,10 @@ var spec = parseOpt.SpecList{
 }
 
 func main() {
-	// We parse the argument
+	// We parse the arguments
 	opt := spec.ParseOs()
 
-	// We get the number
+	// We get the number of character
 	length := 10 // default value
 	if opt.Option["length"] != nil {
 		fmt.Sscanf(opt.Option["length"][0], "%d", &length)
@@ -41,7 +41,8 @@ func main() {
 		return
 	}
 
-	// Display the characters
+	// Display the characters either letter (by default)
+	// or digit (if the flag exist)
 	modeNumber := opt.Flag["number"]
 	for _, char := range nb {
 		if modeNumber {

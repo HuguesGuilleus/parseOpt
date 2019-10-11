@@ -46,7 +46,8 @@ func main() {
 	}
 
 	// Nous affichons les caractères générés soit
-	// sous forme de nombre, soit sous forme de lettre.
+	// sous forme de lettres (par défaut), soit
+	// sous forme de chiffres (si le drapeau est présent)
 	modeNumber := opt.Flag["number"]
 	for _, char := range nb {
 		if modeNumber {
@@ -60,7 +61,7 @@ func main() {
 ```
 
 ## Drapeau
-Pour afficher des lettres
+Pour afficher des lettres:
 ```bash
 ./_ex
 ./_ex -n=false
@@ -74,10 +75,10 @@ Pour afficher des chiffres:
 ./_ex --number=true
 ```
 
-Les valeurs possibles des booléens sont: `0`, `1`, `true`, `false`, `True`, `False`, `TRUE`, `FALSE`. Une autre valeur donnera un avertissement et sera compté comme vrai.
+Les valeurs possibles des booléens sont: `0`, `1`, `true`, `false`, `True`, `False`, `TRUE`, `FALSE`; Une autre valeur donnera un avertissement et sera compté comme vrai.
 
 ## Option
-On peut modifier la taille:
+Pour modifier la taille:
 ```bash
 ./_ex -l=20
 ./_ex -l 20
@@ -86,7 +87,7 @@ On peut modifier la taille:
 ```
 
 ## Drapeau et option
-On peut combiner les drapeaux avec les options. Les syntaxes suivantes sont équivalentes:
+On peut combiner les drapeaux avec les options, les syntaxes suivantes sont équivalentes:
 ```bash
 ./_ex -nl=20
 ./_ex -nl 20
@@ -94,13 +95,11 @@ On peut combiner les drapeaux avec les options. Les syntaxes suivantes sont équ
 ```
 
 ## Aide
-On peut afficher les options possibles:
+On peut afficher les options et les drapeaux possibles:
 ```bash
 ./_ex -h
 ./_ex --help
 ```
 
 ## Vérification
-La liste de spécification peut-être vérifiée (la présence d'un description, ...) voir le fichier `_ex/main_test.go`.
-
-[Vérification des spécifications](./spec#vérification)
+La liste de spécification peut-être (doit être) vérifiée (la présence d'un description, ...) voir le fichier `_ex/main_test.go`.
