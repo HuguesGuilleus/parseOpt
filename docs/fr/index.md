@@ -19,4 +19,4 @@ go get github.com/HuguesGuilleus/parseOpt/
 
 
 ## Journaux d'erreurs
-Les erreur s'affiche dans `ErrLog` (type `*log.Logger`), qui redirige vers un `io.Writer` interne qui encadre la ligne par du rouge dans `os.Stderr`.
+Les erreur s'affiche dans `ErrLog` (type `*log.Logger`), qui redirige vers un `io.Writer` interne qui règle la ligne en rouge et écrit dans `os.Stderr`.
