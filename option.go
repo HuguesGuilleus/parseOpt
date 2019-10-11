@@ -9,8 +9,13 @@ import (
 	"strings"
 )
 
+// Option save all parsed informations with two fiel:
 type Option struct {
-	Flag     map[string]bool
+	// Flag save all matched flags.
+	// true if the flmag is set to true (by default);
+	// false if the flag is set to false or do not exist.
+	Flag map[string]bool
+	// Option contain a slice of string of every matched option.
 	Option   map[string][]string
 	spec     SpecList
 	canRunCB bool
