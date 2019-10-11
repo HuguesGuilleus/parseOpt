@@ -10,34 +10,20 @@ layout: default
 {% assign remote = "getDoc" %}
 
 <style>
-	h1:first-of-type{
-		display: none;
-	}
+	h1:first-of-type{display: none;}
 	h1{
 		margin: 0px !important;
 	}
-	svg.octicon{
-		height: 1em !important;
-		width: 1em !important;
-	}
 </style>
 
-{% if page.path != "index.md" %}
 <h1>
-	<a href="./">{{remote}}</a>&nbsp;/
-	{{page.title}}
+	<a href="./">{{remote}}</a>&nbsp;/ {{page.title}}
 </h1>
 {% include lang.liquid %}
-{%- endif %}
-
-<div style="background:#ff9400;margin-bottom:1em;padding:0.2ex 1ex;color:#3e1300;text-align:center;">
-	{% octicon beaker %}
-	En cours de developpement
-	{% octicon beaker %}
-</div>
 
 
 {{ content }}
+
 
 <footer>
 	<hr>
