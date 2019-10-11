@@ -1,10 +1,13 @@
 # parseOpt
 
-It's a module for parse and analyse environments variables and argument and give it' in a `Option` structure.
+[![GoDoc](https://godoc.org/github.com/HuguesGuilleus/parseOpt?status.svg)](https://godoc.org/github.com/HuguesGuilleus/parseOpt)
+[Documentation](https://huguesguilleus.github.io/parseOpt/)
 
-```go
-type Option struct {
-	Flag     map[string]bool
-	Option   map[string][]string
-}
+
+This module parse the environnement variables and arguments with a specification list, and return the result in a `Option` structure.
+
+
+## Installation
+```bash
+go get github.com/HuguesGuilleus/parseOpt/
 ```
