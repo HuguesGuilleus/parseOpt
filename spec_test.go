@@ -200,7 +200,11 @@ func TestSpecListHelp(t *testing.T) {
 	buff := &bytes.Buffer{}
 	list.Help(buff)
 	for line, expectedLine := range expected {
-		returnedLine, _ := buff.ReadBytes(byte('\n'))
+		returnedLine, err := buff.ReadBytes(byte('\n'))
+		if err != nil {
+			t.Error("Unexpected error",err)
+			t.Log("Line:", line)
+		}
 		returnedLine = returnedLine[:len(returnedLine)-1]
 		if expectedLine != string(returnedLine) {
 			t.Errorf("Line %d:\n", line)

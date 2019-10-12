@@ -7,6 +7,7 @@ package parseOpt
 import (
 	"io"
 	"os"
+	"strings"
 )
 
 // Specification for an option or an flag
@@ -103,8 +104,45 @@ func (list *SpecList) get(key string) (spec *Spec) {
 	}
 }
 
-// It will be used for the option -h or --help
+// It will be used for the flag -h or --help
 func (list *SpecList) Help(w io.Writer) {
+	maxLen := 0
+	for _, s := range *list {
+		if l := len(s.NameLong); l > maxLen {
+			maxLen = l
+		}
+	}
+	maxLen += 2
+	space := strings.Repeat(" ", maxLen)
+	for _, s := range *list {
+		if len(s.Desc) == 0 && (s.NameLong == "--" || len(s.key()) == 0) {
+			continue
+		}
+		name := "\t\033[1m"
+		// NameShort
+		if len(s.NameShort) != 0 {
+			name += "-" + s.NameShort + " "
+		} else {
+			name += "   "
+		}
+		// NameLong
+		if s.NameLong == "--" {
+			name += "--" + space[:maxLen-len(s.NameLong)]
+		} else if len(s.NameLong) != 0 {
+			name += "--" + s.NameLong + space[:maxLen-len(s.NameLong)-2]
+		} else {
+			name += space[:maxLen-len(s.NameLong)]
+		}
+		// OptionName and Description
+		if s.NeedArg && len(s.OptionName) != 0 {
+			name += " \033[0;4m"+s.OptionName
+		}
+		name += "\033[0m "+s.Desc+"\n"
+		io.WriteString(w, name)
+	}
+}
+
+func (list *SpecList) Help1(w io.Writer) {
 	names := make([]string, len(*list))
 	maxLong := 0
 	for i, spec := range *list {
